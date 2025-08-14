@@ -1,0 +1,11 @@
+run = "npm run dev"
+
+[deployment]
+run = ["npm", "run", "build", "&&", "npm", "start"]
+deploymentTarget = "cloudrun"
+
+[deployment.environment]
+NODE_ENV = "production"
+
+[deployment.health]
+path = "/health"

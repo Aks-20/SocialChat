@@ -1,0 +1,270 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: hsl(0, 0%, 100%);
+  --foreground: hsl(20, 14.3%, 4.1%);
+  --muted: hsl(60, 4.8%, 95.9%);
+  --muted-foreground: hsl(25, 5.3%, 44.7%);
+  --popover: hsl(0, 0%, 100%);
+  --popover-foreground: hsl(20, 14.3%, 4.1%);
+  --card: hsl(0, 0%, 100%);
+  --card-foreground: hsl(20, 14.3%, 4.1%);
+  --border: hsl(20, 5.9%, 90%);
+  --input: hsl(20, 5.9%, 90%);
+  --primary: hsl(207, 90%, 54%);
+  --primary-foreground: hsl(211, 100%, 99%);
+  --secondary: hsl(60, 4.8%, 95.9%);
+  --secondary-foreground: hsl(24, 9.8%, 10%);
+  --accent: hsl(60, 4.8%, 95.9%);
+  --accent-foreground: hsl(24, 9.8%, 10%);
+  --destructive: hsl(0, 84.2%, 60.2%);
+  --destructive-foreground: hsl(60, 9.1%, 97.8%);
+  --ring: hsl(20, 14.3%, 4.1%);
+  --radius: 0.5rem;
+
+  /* Social media colors */
+  --facebook-blue: hsl(221, 44%, 41%);
+  --facebook-blue-hover: hsl(221, 44%, 35%);
+  --facebook-light: hsl(210, 36%, 96%);
+  --instagram-pink: hsl(347, 75%, 60%);
+  --instagram-purple: hsl(262, 60%, 55%);
+  --instagram-yellow: hsl(36, 95%, 60%);
+}
+
+/* Font Size Settings */
+html.text-small {
+  font-size: 14px;
+}
+
+html.text-medium {
+  font-size: 16px;
+}
+
+html.text-large {
+  font-size: 18px;
+}
+
+html.text-extra-large {
+  font-size: 20px;
+}
+
+/* Accessibility Settings */
+.motion-reduced * {
+  animation-duration: 0.01ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.01ms !important;
+  scroll-behavior: auto !important;
+}
+
+.high-contrast {
+  filter: contrast(150%);
+}
+
+.high-contrast .text-gray-500,
+.high-contrast .text-muted-foreground {
+  color: hsl(0, 0%, 30%) !important;
+}
+
+.dark.high-contrast .text-gray-500,
+.dark.high-contrast .text-muted-foreground {
+  color: hsl(0, 0%, 80%) !important;
+}
+
+.dark {
+  --background: hsl(240, 10%, 3.9%);
+  --foreground: hsl(0, 0%, 98%);
+  --muted: hsl(240, 3.7%, 15.9%);
+  --muted-foreground: hsl(240, 5%, 64.9%);
+  --popover: hsl(240, 10%, 3.9%);
+  --popover-foreground: hsl(0, 0%, 98%);
+  --card: hsl(240, 10%, 3.9%);
+  --card-foreground: hsl(0, 0%, 98%);
+  --border: hsl(240, 3.7%, 15.9%);
+  --input: hsl(240, 3.7%, 15.9%);
+  --primary: hsl(207, 90%, 54%);
+  --primary-foreground: hsl(211, 100%, 99%);
+  --secondary: hsl(240, 3.7%, 15.9%);
+  --secondary-foreground: hsl(0, 0%, 98%);
+  --accent: hsl(240, 3.7%, 15.9%);
+  --accent-foreground: hsl(0, 0%, 98%);
+  --destructive: hsl(0, 62.8%, 30.6%);
+  --destructive-foreground: hsl(0, 0%, 98%);
+  --ring: hsl(240, 4.9%, 83.9%);
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply font-sans antialiased bg-background text-foreground;
+  }
+
+  html {
+    @apply scroll-smooth;
+  }
+}
+
+@layer components {
+  .facebook-blue {
+    @apply bg-[hsl(221,44%,41%)] hover:bg-[hsl(221,44%,35%)] text-white;
+  }
+  
+  .facebook-light {
+    @apply bg-[hsl(210,36%,96%)] hover:bg-[hsl(210,36%,90%)] text-gray-700;
+  }
+
+  .instagram-gradient {
+    background: linear-gradient(135deg, hsl(347, 75%, 60%), hsl(36, 95%, 60%), hsl(262, 60%, 55%));
+  }
+
+  .story-gradient {
+    background: linear-gradient(45deg, hsl(347, 75%, 60%), hsl(36, 95%, 60%), hsl(262, 60%, 55%));
+  }
+
+  .nav-item {
+    @apply p-3 rounded-lg hover:bg-muted transition-colors duration-200 flex items-center justify-center relative;
+  }
+
+  .nav-item.active {
+    @apply bg-primary bg-opacity-10 text-primary;
+  }
+
+  .nav-item.active::after {
+    content: '';
+    @apply absolute bottom-0 left-1/2 transform -translate-x-1/2 w-8 h-1 bg-primary rounded-t-full;
+  }
+
+  .post-action-btn {
+    @apply flex items-center space-x-2 px-4 py-2 rounded-lg hover:bg-muted transition-colors duration-200 text-muted-foreground hover:text-foreground;
+  }
+
+  .post-action-btn.liked {
+    @apply text-red-500 hover:text-red-600;
+  }
+
+  .notification-badge {
+    @apply absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center;
+  }
+
+  .story-ring {
+    @apply p-0.5 rounded-full story-gradient;
+  }
+
+  .story-ring-viewed {
+    @apply p-0.5 rounded-full bg-gray-300;
+  }
+
+  .message-bubble {
+    @apply max-w-xs rounded-2xl px-4 py-2 text-sm;
+  }
+
+  .message-bubble.sent {
+    @apply bg-primary text-primary-foreground ml-auto;
+  }
+
+  .message-bubble.received {
+    @apply bg-muted text-foreground;
+  }
+
+  .scroll-area {
+    @apply overflow-y-auto scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100;
+  }
+
+  .animate-heart {
+    animation: heart 0.3s ease-in-out;
+  }
+
+  @keyframes heart {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.2); }
+    100% { transform: scale(1); }
+  }
+
+  .animate-bounce-in {
+    animation: bounceIn 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  }
+
+  @keyframes bounceIn {
+    0% { transform: scale(0.3) rotate(-10deg); opacity: 0; }
+    50% { transform: scale(1.1) rotate(5deg); }
+    100% { transform: scale(1) rotate(0deg); opacity: 1; }
+  }
+
+  .glass-effect {
+    @apply backdrop-blur-sm bg-white/80 dark:bg-gray-900/80 border border-white/20 dark:border-gray-700/20;
+  }
+}
+
+/* Custom scrollbar styles */
+.scrollbar-thin {
+  scrollbar-width: thin;
+  scrollbar-color: rgb(156 163 175) rgb(243 244 246);
+}
+
+.scrollbar-thin::-webkit-scrollbar {
+  width: 6px;
+}
+
+.scrollbar-thin::-webkit-scrollbar-track {
+  background: rgb(243 244 246);
+}
+
+.scrollbar-thin::-webkit-scrollbar-thumb {
+  background-color: rgb(156 163 175);
+  border-radius: 3px;
+}
+
+.scrollbar-thin::-webkit-scrollbar-thumb:hover {
+  background-color: rgb(107 114 128);
+}
+
+/* Loading animations */
+.loading-skeleton {
+  @apply animate-pulse bg-gray-200 dark:bg-gray-700 rounded;
+}
+
+.loading-dots {
+  @apply inline-flex space-x-1;
+}
+
+.loading-dots div {
+  @apply w-2 h-2 bg-gray-400 rounded-full animate-bounce;
+}
+
+.loading-dots div:nth-child(1) { animation-delay: 0ms; }
+.loading-dots div:nth-child(2) { animation-delay: 150ms; }
+.loading-dots div:nth-child(3) { animation-delay: 300ms; }
+
+/* Responsive design improvements */
+@media (max-width: 768px) {
+  .nav-item::after {
+    @apply hidden;
+  }
+  
+  .message-bubble {
+    @apply max-w-[280px];
+  }
+}
+
+/* Focus improvements for accessibility */
+.focus-ring {
+  @apply focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2;
+}
+
+/* Smooth transitions for interactive elements */
+.smooth-transition {
+  @apply transition-all duration-200 ease-in-out;
+}
+
+/* Enhanced button styles */
+.btn-primary {
+  @apply facebook-blue focus-ring smooth-transition;
+}
+
+.btn-secondary {
+  @apply facebook-light focus-ring smooth-transition;
+}
