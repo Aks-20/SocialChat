@@ -1,0 +1,14 @@
+{
+  "name": "socialsync-root",
+  "version": "1.0.0",
+  "description": "Root package.json to redirect to SocialSync-main",
+  "scripts": {
+    "install": "cd SocialSync-main && npm install",
+    "build": "cd SocialSync-main && npm run build",
+    "start": "cd SocialSync-main && npm run start",
+    "dev": "cd SocialSync-main && npm run dev"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+} 
