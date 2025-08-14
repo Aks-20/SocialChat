@@ -3,6 +3,7 @@ services:
     name: socialsync
     env: node
     plan: free
+    rootDir: SocialSync-main
     buildCommand: npm install && npm run build
     startCommand: npm run start
     envVars:
