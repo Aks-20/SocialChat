@@ -13,9 +13,13 @@ import {
   Hash, 
   X,
   UserIcon,
-  FileText
+  FileText,
+  UserPlus
 } from "lucide-react";
 import type { User as UserType, PostWithUser } from "@shared/schema";
+import { useAuth } from "@/hooks/use-auth";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { apiRequest } from "@/lib/queryClient";
 
 interface SearchDropdownProps {
   isOpen: boolean;
@@ -35,6 +39,29 @@ export default function SearchDropdown({
   const [recentSearches, setRecentSearches] = useState<string[]>([
     "john doe", "react tutorial", "nature photography"
   ]);
+  const { user: currentUser } = useAuth();
+  const queryClient = useQueryClient();
+
+  // Get friends and sent requests
+  const { data: friends = [] } = useQuery<UserType[]>({
+    queryKey: ["/api/friends"],
+    enabled: !!currentUser,
+  });
+  const { data: sentRequests = [] } = useQuery<any[]>({
+    queryKey: ["/api/friend-requests/sent"],
+    enabled: !!currentUser,
+  });
+
+  // Mutation for sending friend request
+  const sendRequestMutation = useMutation({
+    mutationFn: async (receiverId: number) => {
+      return apiRequest("POST", "/api/friend-requests", { receiverId });
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["/api/friend-requests/sent"] });
+      queryClient.invalidateQueries({ queryKey: ["/api/friend-suggestions"] });
+    },
+  });
 
   const { data: searchResults, isLoading } = useQuery({
     queryKey: ['/api/search', searchQuery],
@@ -180,33 +207,54 @@ export default function SearchDropdown({
                   <h4 className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-2">
                     People
                   </h4>
-                  {(searchResults as any)?.users?.map((user: UserType) => (
-                    <div 
-                      key={user.id} 
-                      className="block cursor-pointer"
-                      onClick={() => {
-                        addToRecentSearches(user.name || user.username);
-                        onClose();
-                        setLocation(`/profile/${user.id}`);
-                      }}
-                    >
-                      <div className="flex items-center p-2 hover:bg-gray-50 rounded-lg">
-                        <Avatar className="h-10 w-10 mr-3">
-                          <AvatarImage src={user.avatar || ""} />
-                          <AvatarFallback className="bg-blue-100 text-blue-600 text-sm">
-                            {getUserInitials(user)}
-                          </AvatarFallback>
-                        </Avatar>
-                        <div className="flex-1">
-                          <div className="font-medium text-sm text-gray-900">
-                            {user.name || user.username}
+                  {(searchResults as any)?.users?.map((user: UserType) => {
+                    const isCurrentUser = currentUser && user.id === currentUser.id;
+                    const isFriend = friends.some((f: any) => f.id === user.id);
+                    const isRequested = sentRequests.some((r: any) => r.receiverId === user.id && r.status === "pending");
+                    return (
+                      <div 
+                        key={user.id} 
+                        className="block cursor-pointer group"
+                        onClick={() => {
+                          addToRecentSearches(user.name || user.username);
+                          onClose();
+                          setLocation(`/profile/${user.id}`);
+                        }}
+                      >
+                        <div className="flex items-center p-2 hover:bg-gray-50 rounded-lg">
+                          <Avatar className="h-10 w-10 mr-3">
+                            <AvatarImage src={user.avatar || ""} />
+                            <AvatarFallback className="bg-blue-100 text-blue-600 text-sm">
+                              {getUserInitials(user)}
+                            </AvatarFallback>
+                          </Avatar>
+                          <div className="flex-1">
+                            <div className="font-medium text-sm text-gray-900">
+                              {user.name || user.username}
+                            </div>
+                            <div className="text-xs text-gray-500">@{user.username}</div>
                           </div>
-                          <div className="text-xs text-gray-500">@{user.username}</div>
+                          {!isCurrentUser && !isFriend && (
+                            <Button
+                              size="sm"
+                              variant="outline"
+                              disabled={isRequested || sendRequestMutation.isPending}
+                              onClick={() => sendRequestMutation.mutate(user.id)}
+                              className="ml-2"
+                            >
+                              {isRequested ? "Pending" : <><UserPlus className="h-4 w-4 mr-1" />Add Friend</>}
+                            </Button>
+                          )}
+                          {isFriend && (
+                            <Badge variant="secondary" className="ml-2">Friend</Badge>
+                          )}
+                          {isCurrentUser && (
+                            <Badge variant="secondary" className="ml-2">You</Badge>
+                          )}
                         </div>
-                        <UserIcon className="h-4 w-4 text-gray-400" />
                       </div>
-                    </div>
-                  ))}
+                    );
+                  })}
                 </div>
               )}
 

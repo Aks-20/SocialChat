@@ -25,6 +25,7 @@ import ReelsPage from "@/pages/reels";
 import StatusPage from "@/pages/status";
 import GroupsPage from "@/pages/groups";
 import VirtualRoomsPage from "@/pages/virtual-rooms";
+import ChatDemo from "@/components/chat-demo";
 import Navigation from "@/components/navigation";
 import Sidebar from "@/components/sidebar";
 import NotFound from "@/pages/not-found";
@@ -145,6 +146,7 @@ function AppContent() {
             <Route path="/groups/:id" component={GroupsPage} />
             <Route path="/groups" component={GroupsPage} />
             <Route path="/virtual-rooms" component={VirtualRoomsPage} />
+            <Route path="/chat-demo" component={ChatDemo} />
             <Route path="/posts/:id" component={PublicPostPage} />
             <Route path="/profile/:id?" component={ProfilePage} />
             <Route path="/profile" component={ProfilePage} />

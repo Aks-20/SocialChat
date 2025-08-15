@@ -18,7 +18,8 @@ import {
   Play,
   Camera,
   UserSquare2,
-  Video
+  Video,
+  MessageSquare
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
@@ -30,6 +31,7 @@ export default function Sidebar() {
     { icon: Home, label: "Home", path: "/", active: location === "/" },
     { icon: Play, label: "Reels", path: "/reels", active: location === "/reels" },
     { icon: Camera, label: "Status", path: "/status", active: location === "/status" },
+    { icon: Video, label: "Virtual Rooms", path: "/virtual-rooms", active: location === "/virtual-rooms" },
     { icon: Search, label: "Explore", path: "/explore", active: location === "/explore" },
     { icon: MessageCircle, label: "Messages", path: "/messages", active: location === "/messages" },
     { icon: Heart, label: "Notifications", path: "/notifications", active: location === "/notifications" },
@@ -110,6 +112,18 @@ export default function Sidebar() {
               >
                 <Video className={`mr-3 h-5 w-5 ${location === "/virtual-rooms" ? "text-blue-600" : "text-gray-400"}`} />
                 Virtual Rooms
+              </button>
+            </Link>
+            <Link href="/chat-demo">
+              <button 
+                className={`w-full flex items-center px-3 py-3 text-sm font-medium rounded-lg transition-colors ${
+                  location === "/chat-demo"
+                    ? "bg-blue-50 text-blue-600 border-r-2 border-blue-600"
+                    : "text-gray-700 hover:bg-gray-50 hover:text-gray-900"
+                }`}
+              >
+                <MessageSquare className={`mr-3 h-5 w-5 ${location === "/chat-demo" ? "text-blue-600" : "text-gray-400"}`} />
+                Chat Demo
               </button>
             </Link>
             <Link href="/wellness">

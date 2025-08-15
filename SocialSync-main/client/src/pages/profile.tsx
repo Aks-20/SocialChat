@@ -31,8 +31,10 @@ import {
   Settings,
   UserPlus,
   UserMinus,
-  MessageCircle
+  MessageCircle,
+  Video
 } from 'lucide-react';
+import VideoCallButton from '@/components/video-call-button';
 import { formatDistanceToNow } from 'date-fns';
 import { Link, useLocation } from 'wouter';
 
@@ -503,6 +505,11 @@ export default function ProfilePage() {
                       <MessageCircle className="w-4 h-4 mr-2" />
                       Message
                     </Button>
+                    <VideoCallButton
+                      user={profileUser}
+                      variant="secondary"
+                      size="default"
+                    />
                   </>
                 )}
               </div>

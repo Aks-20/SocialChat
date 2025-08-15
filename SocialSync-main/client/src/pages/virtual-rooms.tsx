@@ -18,6 +18,7 @@ import {
 } from 'lucide-react';
 import { useAuth } from '@/hooks/use-auth';
 import { useToast } from '@/hooks/use-toast';
+import LiveStreamViewer from '@/components/live-stream-viewer';
 
 interface VirtualRoom {
   id: number;
@@ -53,10 +54,6 @@ export default function VirtualRoomsPage() {
 
   const handleJoinRoom = (room: VirtualRoom) => {
     setSelectedRoom(room);
-    toast({
-      title: "Joining virtual room",
-      description: `Connecting to ${room.title}...`
-    });
   };
 
   const formatDuration = (startedAt: string) => {
@@ -191,38 +188,13 @@ export default function VirtualRoomsPage() {
         </div>
       )}
 
-      {/* Selected Room Modal/Viewer would go here */}
+      {/* Live Stream Viewer */}
       {selectedRoom && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white rounded-lg p-6 max-w-md w-full mx-4">
-            <h3 className="text-lg font-medium mb-4">Join Virtual Room</h3>
-            <p className="text-gray-600 mb-4">
-              You're about to join "{selectedRoom.title}" by {selectedRoom.user.name}
-            </p>
-            <div className="flex space-x-3">
-              <Button 
-                variant="outline" 
-                onClick={() => setSelectedRoom(null)}
-                className="flex-1"
-              >
-                Cancel
-              </Button>
-              <Button 
-                onClick={() => {
-                  // Here you would implement the actual room joining logic
-                  toast({
-                    title: "Joined room",
-                    description: `You're now in ${selectedRoom.title}`
-                  });
-                  setSelectedRoom(null);
-                }}
-                className="flex-1"
-              >
-                Join Now
-              </Button>
-            </div>
-          </div>
-        </div>
+        <LiveStreamViewer
+          stream={selectedRoom}
+          isOpen={!!selectedRoom}
+          onClose={() => setSelectedRoom(null)}
+        />
       )}
     </div>
   );

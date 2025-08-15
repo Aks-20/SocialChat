@@ -23,7 +23,9 @@ import {
   Monitor,
   HelpCircle,
   Shield,
-  UserCheck
+  UserCheck,
+  Video,
+  Radio
 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import SearchDropdown from "./search-dropdown";
@@ -31,6 +33,7 @@ import NotificationsDropdown from "./notifications-dropdown";
 import MessagesDropdown from "./messages-dropdown";
 import CreateDropdown from "./create-dropdown";
 import SettingsModal from "./settings-modal";
+import LiveVideoModal from "./live-video-modal";
 
 export default function Navigation() {
   const { user, logout } = useAuth();
@@ -40,6 +43,7 @@ export default function Navigation() {
   const [isNotificationsOpen, setIsNotificationsOpen] = useState(false);
   const [isMessagesOpen, setIsMessagesOpen] = useState(false);
   const [isCreateOpen, setIsCreateOpen] = useState(false);
+  const [isLiveVideoModalOpen, setIsLiveVideoModalOpen] = useState(false);
   const [showSettingsModal, setShowSettingsModal] = useState(false);
   const [settingsModalType, setSettingsModalType] = useState<'settings' | 'privacy' | 'help' | 'display'>('settings');
 
@@ -170,8 +174,23 @@ export default function Navigation() {
                 const event = new CustomEvent('openCreateRoom');
                 window.dispatchEvent(event);
               }}
+              onCreateLiveVideo={() => {
+                setIsCreateOpen(false);
+                setIsLiveVideoModalOpen(true);
+              }}
             />
           </div>
+
+          {/* Go Live Button */}
+          <Button 
+            variant="ghost" 
+            size="sm" 
+            className="bg-red-500 hover:bg-red-600 text-white px-3 py-2 rounded-full"
+            onClick={() => setIsLiveVideoModalOpen(true)}
+          >
+            <Radio className="h-4 w-4 mr-1" />
+            <span className="hidden sm:inline">Go Live</span>
+          </Button>
 
           {/* Messages */}
           <div className="relative">
@@ -286,6 +305,10 @@ export default function Navigation() {
       </div>
       
       {/* Modals */}
+      <LiveVideoModal
+        isOpen={isLiveVideoModalOpen}
+        onClose={() => setIsLiveVideoModalOpen(false)}
+      />
       <SettingsModal
         isOpen={showSettingsModal}
         onClose={() => setShowSettingsModal(false)}

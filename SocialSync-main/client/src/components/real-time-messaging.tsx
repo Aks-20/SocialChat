@@ -32,6 +32,7 @@ import {
   MessageCircle,
   Check
 } from 'lucide-react';
+import VideoCallButton from './video-call-button';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { formatDistanceToNow, format, isToday, isYesterday } from 'date-fns';
 
@@ -682,9 +683,12 @@ export default function RealTimeMessaging() {
                       <Button variant="ghost" size="sm" className="hover:bg-blue-50 dark:hover:bg-blue-900/20 text-blue-600 dark:text-blue-400 rounded-full p-2">
                         <Phone className="w-5 h-5" />
                       </Button>
-                      <Button variant="ghost" size="sm" className="hover:bg-blue-50 dark:hover:bg-blue-900/20 text-blue-600 dark:text-blue-400 rounded-full p-2">
-                        <Video className="w-5 h-5" />
-                      </Button>
+                      <VideoCallButton
+                        user={selectedConversation}
+                        variant="ghost"
+                        size="sm"
+                        className="hover:bg-blue-50 dark:hover:bg-blue-900/20 text-blue-600 dark:text-blue-400 rounded-full p-2"
+                      />
                       <Button variant="ghost" size="sm" onClick={() => setShowUserInfo(true)} className="hover:bg-gray-100 dark:hover:bg-gray-700 rounded-full p-2">
                         <Info className="w-5 h-5" />
                       </Button>

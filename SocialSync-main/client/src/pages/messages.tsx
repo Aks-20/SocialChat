@@ -1,5 +1,5 @@
-import RealTimeMessaging from '@/components/real-time-messaging';
+import FriendChat from '@/components/friend-chat';
 
 export default function MessagesPage() {
-  return <RealTimeMessaging />;
+  return <FriendChat />;
 }
